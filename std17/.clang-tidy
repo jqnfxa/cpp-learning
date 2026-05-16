@@ -1,0 +1,10 @@
+# C++17 tasks: inherit project base config, then disable modernize-* checks
+# that would push toward features unavailable in C++17.
+#
+# `[[nodiscard]]`, `if constexpr`, structured bindings, and concatenated
+# nested namespaces are fair game here.
+
+InheritParentConfig: true
+
+Checks: >
+  -modernize-use-constraints,

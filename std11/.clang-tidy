@@ -1,0 +1,17 @@
+# C++11 tasks: inherit project base config, then disable modernize-* checks
+# that would push toward features unavailable in C++11.
+#
+# (clang-tidy usually respects -std=c++11 from compile_commands.json on its
+# own, but the explicit list makes the intent obvious and keeps behavior
+# stable even when a task is linted without a compilation database.)
+
+InheritParentConfig: true
+
+Checks: >
+  -modernize-make-unique,
+  -modernize-use-transparent-functors,
+  -modernize-use-nodiscard,
+  -modernize-use-uncaught-exceptions,
+  -modernize-concat-nested-namespaces,
+  -modernize-replace-random-shuffle,
+  -modernize-use-constraints,

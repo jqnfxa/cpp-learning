@@ -1,0 +1,13 @@
+# C++14 tasks: inherit project base config, then disable modernize-* checks
+# that would push toward features unavailable in C++14.
+#
+# `std::make_unique` and transparent functors are fair game here — they were
+# added in C++14 — so unlike std11/.clang-tidy this file leaves them on.
+
+InheritParentConfig: true
+
+Checks: >
+  -modernize-use-nodiscard,
+  -modernize-use-uncaught-exceptions,
+  -modernize-concat-nested-namespaces,
+  -modernize-use-constraints,

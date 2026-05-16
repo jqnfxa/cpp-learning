@@ -1,0 +1,5 @@
+# C++20 tasks. Inherit the project base style; pin the dialect.
+---
+Language: Cpp
+BasedOnStyle: InheritParentConfig
+Standard: c++20

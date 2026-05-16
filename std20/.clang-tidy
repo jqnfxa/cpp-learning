@@ -1,0 +1,4 @@
+# C++20 tasks: inherit project base config unchanged. All modernize-* checks
+# are on, including concepts/`requires` (`modernize-use-constraints`).
+
+InheritParentConfig: true
