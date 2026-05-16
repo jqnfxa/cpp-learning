@@ -1,0 +1,118 @@
+# Base style for cpp-learning.
+#
+# Tasks live under std11/, std14/, std17/, std20/. Each of those dirs ships
+# its own .clang-format that pins `Standard:` to the matching dialect; this
+# file is the catch-all for everything outside those dirs and the source of
+# truth for layout rules (indent, braces, spacing, ...).
+#
+# Indentation is 4 spaces, no tabs. UTF-8, LF.
+
+---
+Language: Cpp
+Standard: Latest
+
+# ----- Indentation -----
+UseTab: Never
+TabWidth: 4
+IndentWidth: 4
+ContinuationIndentWidth: 4
+
+# public:/private: sits flush with the enclosing `class`
+AccessModifierOffset: -4
+
+# `namespace foo { ... }` contents are NOT indented.
+NamespaceIndentation: None
+CompactNamespaces: false
+FixNamespaceComments: false
+
+IndentCaseLabels: false
+IndentPPDirectives: None
+IndentRequires: true
+IndentWrappedFunctionNames: false
+
+# ----- Line length -----
+# Keep declarations on a single line even when they grow long. Don't reflow.
+ColumnLimit: 0
+ReflowComments: false
+BreakStringLiterals: false
+
+# ----- Braces: Allman everywhere -----
+BreakBeforeBraces: Allman
+
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty   # `{}` stays compact
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All       # `[](auto x) { return x + 1; }` is idiomatic
+AllowShortLoopsOnASingleLine: false
+
+# ----- Pointers / references: right-aligned with a space -----
+# `const T &x`, `std::ostream &out`, `T *p` — never `T& x`.
+DerivePointerAlignment: false
+PointerAlignment: Right
+ReferenceAlignment: Right
+
+# ----- Templates -----
+# `template <typename T>` sits on its own line above the declaration.
+AlwaysBreakTemplateDeclarations: Yes
+SpaceAfterTemplateKeyword: true
+
+# ----- Constructor / inheritance initializer lists -----
+#   : first_(a)
+#   , second_(b)
+BreakConstructorInitializers: BeforeComma
+BreakInheritanceList: BeforeComma
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
+
+# ----- Includes -----
+# Order is semantic (own headers first, then std, or vice versa) rather than
+# alphabetical. Don't resort.
+SortIncludes: Never
+IncludeBlocks: Preserve
+SortUsingDeclarations: false
+
+# ----- Spacing -----
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCpp11BracedList: false         # `T{10}`, not `T {10}`
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeParens: ControlStatements      # `if (` / `for (` / `while (` / `catch (`
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInAngles: false                     # `std::vector<T>`, not `std::vector< T >`
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+Cpp11BracedListStyle: true
+
+# ----- Alignment -----
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: None
+AlignConsecutiveDeclarations: None
+AlignConsecutiveMacros: None
+AlignOperands: Align
+AlignTrailingComments: true
+
+# ----- Binary operators / ternaries -----
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: true
+
+# ----- Packing -----
+BinPackArguments: true
+BinPackParameters: true
+
+# ----- Empty lines -----
+MaxEmptyLinesToKeep: 2
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# ----- Misc -----
+DeriveLineEnding: false
+UseCRLF: false
+InsertTrailingCommas: None

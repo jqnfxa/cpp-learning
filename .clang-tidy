@@ -1,0 +1,159 @@
+# Base clang-tidy config for cpp-learning.
+#
+# Tasks live under std11/, std14/, std17/, std20/. Each of those dirs has its
+# own .clang-tidy that inherits from this one and trims modernize-* checks
+# that would push past the dialect that dir is teaching (e.g. don't suggest
+# `std::make_unique` inside std11/, since it's C++14).
+#
+# Conventions enforced here:
+#  * Always-qualified std:: (no `using namespace std;`).
+#  * snake_case types/functions/variables; trailing underscore on private data
+#    members. Type template parameters are CamelCase.
+#  * Braces around every controlled statement (Allman). No single-line `if`
+#    bodies.
+
+Checks: >
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-branch-clone,
+  -bugprone-narrowing-conversions,
+
+  cert-*,
+  -cert-dcl21-cpp,
+  -cert-err58-cpp,
+
+  concurrency-*,
+
+  cppcoreguidelines-*,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-avoid-non-const-global-variables,
+  -cppcoreguidelines-macro-usage,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-const-cast,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-pro-type-vararg,
+  -cppcoreguidelines-special-member-functions,
+
+  google-build-namespaces,
+  google-build-using-namespace,
+  google-explicit-constructor,
+  google-global-names-in-headers,
+  google-readability-casting,
+  google-runtime-int,
+  google-runtime-operator,
+
+  hicpp-exception-baseclass,
+  hicpp-multiway-paths-covered,
+  hicpp-signed-bitwise,
+
+  misc-*,
+  -misc-non-private-member-variables-in-classes,
+  -misc-no-recursion,
+  -misc-include-cleaner,
+
+  modernize-*,
+  -modernize-use-trailing-return-type,
+  -modernize-avoid-c-arrays,
+
+  performance-*,
+
+  portability-*,
+
+  readability-*,
+  -readability-function-cognitive-complexity,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -readability-magic-numbers,
+  -readability-named-parameter,
+  -readability-uppercase-literal-suffix,
+  -readability-else-after-return,
+
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*/std(11|14|17|20)/.*\.(hpp|h|hxx)$'
+FormatStyle: file
+SystemHeaders: false
+
+CheckOptions:
+  # ---------------- Identifier naming ----------------
+  # snake_case everywhere; type template parameters are CamelCase.
+  # Private/protected members carry a trailing underscore; public members do not.
+
+  - { key: readability-identifier-naming.NamespaceCase,                value: lower_case }
+  - { key: readability-identifier-naming.InlineNamespaceCase,          value: lower_case }
+
+  - { key: readability-identifier-naming.ClassCase,                    value: lower_case }
+  - { key: readability-identifier-naming.StructCase,                   value: lower_case }
+  - { key: readability-identifier-naming.UnionCase,                    value: lower_case }
+  - { key: readability-identifier-naming.EnumCase,                     value: lower_case }
+  - { key: readability-identifier-naming.EnumConstantCase,             value: lower_case }
+  - { key: readability-identifier-naming.ScopedEnumConstantCase,       value: lower_case }
+
+  - { key: readability-identifier-naming.TypedefCase,                  value: lower_case }
+  - { key: readability-identifier-naming.TypeAliasCase,                value: lower_case }
+
+  - { key: readability-identifier-naming.ConceptCase,                  value: lower_case }
+
+  - { key: readability-identifier-naming.FunctionCase,                 value: lower_case }
+  - { key: readability-identifier-naming.MethodCase,                   value: lower_case }
+  - { key: readability-identifier-naming.ClassMethodCase,              value: lower_case }
+
+  - { key: readability-identifier-naming.VariableCase,                 value: lower_case }
+  - { key: readability-identifier-naming.LocalVariableCase,            value: lower_case }
+  - { key: readability-identifier-naming.ParameterCase,                value: lower_case }
+  - { key: readability-identifier-naming.ParameterPackCase,            value: lower_case }
+
+  - { key: readability-identifier-naming.MemberCase,                   value: lower_case }
+  - { key: readability-identifier-naming.PublicMemberCase,             value: lower_case }
+  - { key: readability-identifier-naming.ProtectedMemberCase,          value: lower_case }
+  - { key: readability-identifier-naming.ProtectedMemberSuffix,        value: _           }
+  - { key: readability-identifier-naming.PrivateMemberCase,            value: lower_case }
+  - { key: readability-identifier-naming.PrivateMemberSuffix,          value: _           }
+
+  - { key: readability-identifier-naming.ConstantCase,                 value: lower_case }
+  - { key: readability-identifier-naming.ClassConstantCase,            value: lower_case }
+  - { key: readability-identifier-naming.StaticConstantCase,           value: lower_case }
+  - { key: readability-identifier-naming.ConstexprVariableCase,        value: lower_case }
+  - { key: readability-identifier-naming.ConstexprFunctionCase,        value: lower_case }
+  - { key: readability-identifier-naming.ConstexprMethodCase,          value: lower_case }
+  - { key: readability-identifier-naming.GlobalConstantCase,           value: lower_case }
+  - { key: readability-identifier-naming.GlobalVariableCase,           value: lower_case }
+  - { key: readability-identifier-naming.StaticVariableCase,           value: lower_case }
+
+  - { key: readability-identifier-naming.TemplateParameterCase,        value: CamelCase  }
+  - { key: readability-identifier-naming.TypeTemplateParameterCase,    value: CamelCase  }
+  - { key: readability-identifier-naming.ValueTemplateParameterCase,   value: CamelCase  }
+  - { key: readability-identifier-naming.TemplateTemplateParameterCase, value: CamelCase }
+
+  - { key: readability-identifier-naming.MacroDefinitionCase,          value: UPPER_CASE }
+
+  # ---------------- Braces ----------------
+  # Every controlled statement has braces, even single-statement bodies.
+  - { key: readability-braces-around-statements.ShortStatementLines,   value: '0' }
+
+  # ---------------- Function / parameter size ----------------
+  # Catch real outliers, not ordinary code.
+  - { key: readability-function-size.LineThreshold,                    value: '120' }
+  - { key: readability-function-size.StatementThreshold,               value: '100' }
+  - { key: readability-function-size.BranchThreshold,                  value: '20'  }
+  - { key: readability-function-size.ParameterThreshold,               value: '6'   }
+  - { key: readability-function-size.NestingThreshold,                 value: '5'   }
+
+  # ---------------- Modernize nudges ----------------
+  - { key: modernize-use-nodiscard.ReplacementString,                  value: '[[nodiscard]]' }
+  - { key: modernize-use-override.IgnoreDestructors,                   value: 'true' }
+  - { key: modernize-loop-convert.MinConfidence,                       value: reasonable }
+  - { key: modernize-use-auto.MinTypeNameLength,                       value: '5' }
+  - { key: modernize-use-default-member-init.UseAssignment,            value: 'true' }
+
+  # ---------------- Performance ----------------
+  - { key: performance-for-range-copy.WarnOnAllAutoCopies,             value: 'true' }
+  - { key: performance-unnecessary-value-param.AllowedTypes,           value: '' }
+
+  # ---------------- Misc hygiene ----------------
+  - { key: readability-simplify-boolean-expr.ChainedConditionalReturn, value: 'true' }
+  - { key: readability-simplify-boolean-expr.ChainedConditionalAssignment, value: 'true' }
+  - { key: readability-qualified-auto.AddConstToQualified,             value: 'true' }
+  - { key: readability-redundant-smartptr-get.IgnoreMacros,            value: 'true' }
